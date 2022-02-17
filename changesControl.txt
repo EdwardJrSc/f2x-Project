@@ -1,3 +1,13 @@
 .: COMMIT 2 | 20221002 :.
 
-1) Se crean los archivos iniciales del proyecto usando Angular 12
+1) Se crean los archivos iniciales del proyecto usando Angular 12.
+
+.: COMMIT 3 | 20221502 :.
+
+1) Se crea folder data para manejar la información de la base de datos.
+2) Se crea folder templates para crear las vistas donde se mostrará la información.
+3) Se crear folder server para desarrollar la logica del proyecto.
+4) Se agrega archivo realizado en swagger.
+    4.1) Se crea paths con metodo POST para verificar los datos del usuario en el login.
+    4.2) Se agregar responses 200, 401, 400 y 409
+    4.3) Se crea apartado de components (responses, parameters, schemas).

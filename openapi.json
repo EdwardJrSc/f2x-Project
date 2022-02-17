@@ -1,0 +1,97 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "F2X Project.",
+    "description": "prueba tecnica Edward Sierra",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://host:5200"
+    }
+  ],
+  "tags": [
+    {
+      "name": "login",
+      "description": "Petición login para poder usar realizar consultas."
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Autorización para realizar las peticiones.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "(OK) Ingresó"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Unauthorized": {
+        "description": "(Unauthorized) No está autorizado para usar el servicio."
+      },
+      "BadRequest": {
+        "description": "(BadRequest) Los datos enviados no son correctos."
+      },
+      "ServerError": {
+        "description": "Error en el servidor"
+      }
+    },
+    "parameters": {
+      "token": {
+        "name": "tokenLogin",
+        "in": "header",
+        "description": "Token login.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "userLogin": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Nombre de usuario."
+          },
+          "password": {
+            "type": "string",
+            "description": "Password."
+          }
+        }
+      }
+    }
+  }
+}
