@@ -11,3 +11,8 @@
     4.1) Se crea paths con metodo POST para verificar los datos del usuario en el login.
     4.2) Se agregar responses 200, 401, 400 y 409
     4.3) Se crea apartado de components (responses, parameters, schemas).
+
+.: COMMIT 4 | 20220218 :.
+
+1) Se crean los path para el conteo y recaudo de los vehículos.
+2) Se definen los schemas correspondientes para los parametros de los GET.

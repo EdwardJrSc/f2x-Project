@@ -7,25 +7,33 @@
   },
   "servers": [
     {
-      "url": "https://host:5200"
+      "url": "http://190.145.81.67:5200"
     }
   ],
   "tags": [
     {
-      "name": "login",
+      "name": "Login",
       "description": "Petición login para poder usar realizar consultas."
+    },
+    {
+      "name": "Conteo",
+      "description": "Conteo de vehículos."
+    },
+    {
+      "name": "Recaudo",
+      "description": "Recaudo de vehículos."
     }
   ],
   "paths": {
-    "/": {
+    "/api/Login": {
       "post": {
         "tags": [
-          "login"
+          "Login"
         ],
         "summary": "Autorización para realizar las peticiones.",
         "parameters": [
           {
-            "$ref": "#/components/parameters/token"
+            "$ref": "#/components/parameters/userLogin"
           }
         ],
         "requestBody": {
@@ -53,6 +61,66 @@
           }
         }
       }
+    },
+    "/api/ConteoVehiculos/{fecha_consulta}": {
+      "get": {
+        "tags": [
+          "Conteo"
+        ],
+        "summary": "Petición conteo de vehículos.",
+        "parameters": [
+          {
+            "name": "fecha_consulta",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/parameters/fecha_consulta"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/conteoVehiculo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RecaudoVehiculos/{fecha_consulta}": {
+      "get": {
+        "tags": [
+          "Recaudo"
+        ],
+        "summary": "Petición recaudo de vehículos.",
+        "parameters": [
+          {
+            "name": "fecha_consulta",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/parameters/fecha_consulta"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/recaudoVehiculo"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -68,17 +136,86 @@
       }
     },
     "parameters": {
-      "token": {
-        "name": "tokenLogin",
+      "fecha_consulta": {
         "in": "header",
-        "description": "Token login.",
+        "name": "fecha_consulta",
         "required": true,
         "schema": {
-          "type": "string"
+          "type": "string",
+          "description": "fecha de consulta."
+        }
+      },
+      "userLogin": {
+        "in": "header",
+        "name": "tokenUser",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "userName": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string",
+              "format": "password"
+            }
+          }
         }
       }
     },
     "schemas": {
+      "conteoVehiculo": {
+        "type": "object",
+        "properties": {
+          "estacion": {
+            "type": "string",
+            "description": "Nombre de las estacion."
+          },
+          "sentido": {
+            "type": "string",
+            "description": "Sentido en que pasaron los carros."
+          },
+          "hora": {
+            "type": "string",
+            "format": "data-time",
+            "description": "Hora en que pasaron los vehículos."
+          },
+          "categoria": {
+            "type": "string",
+            "description": "Categoria establecida a los vehículos."
+          },
+          "cantidad": {
+            "type": "integer",
+            "description": "Cantidad de vehículos que pasaron."
+          }
+        }
+      },
+      "recaudoVehiculo": {
+        "type": "object",
+        "properties": {
+          "estacion": {
+            "type": "string",
+            "description": "Nombre estación"
+          },
+          "sentido": {
+            "type": "string",
+            "description": "Sentido del vehículo"
+          },
+          "hora": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Hora del paso del vehículo"
+          },
+          "categoria": {
+            "type": "string",
+            "description": "Categoria del vehículo."
+          },
+          "valorTabulado": {
+            "type": "integer",
+            "description": "Valor tabulado y auditado"
+          }
+        }
+      },
       "userLogin": {
         "type": "object",
         "properties": {
@@ -88,7 +225,7 @@
           },
           "password": {
             "type": "string",
-            "description": "Password."
+            "format": "password"
           }
         }
       }
